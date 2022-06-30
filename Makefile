@@ -73,6 +73,10 @@ all: build
 
 build: WHAT ?= ./cmd/...
 build: ## Build the project
+ifeq ($(and $(KUBE_MAJOR_VERSION),$(KUBE_MINOR_VERSION)),)
+	$(info Kubernetes version not set. Ensure jq is installed.)
+	exit 1
+endif
 	go build -ldflags="$(LDFLAGS)" -o bin $(WHAT)
 .PHONY: build
 
